@@ -1,0 +1,47 @@
+<div class="gridCompFooter" ng-show="gridData.length > 0">
+    <div class="pagingNoRecPlace">
+        <span class="noRecTxt">تعداد کل: </span>
+        <span class="noRecAll">{{totalCount}}</span>
+    </div>
+    <div class="pagingPagesPlace">
+        <ul class="paging">
+            <li class="arrowRight" ng-if="pagination.currentPage > 0">
+                <a ng-click="setCurrent(pagination.currentPage-2, 'pagination')"><span class="icon" data-icon="&#xe128;"></span></a>
+            </li>
+            <!--
+            <li class="select"><a href="">1</a></li>
+            <li class="more">
+                <a href=""><span class="icon" data-icon="&#xe094;"></span></a>
+            </li>
+            -->
+            <li id="current{{pageNumber}}" class="current{{pageNumber}}{{gridName}} {{gridName}}" ng-repeat="pageNumber in pages track by $index" ng-class="{ myActive :pagination.currentPage == pageNumber, disabled : pageNumber == '...' }">
+                <a href="" ng-click="setCurrent(pageNumber , '')">{{ pageNumber}}</a>
+            </li>
+            <li class="arrowLeft" ng-if="pagination.currentPage < pagination.last">
+                <a ng-click="setCurrent(pagination.currentPage, 'pagination')"><span class="icon" data-icon="&#xe129;"></span></a>
+            </li>
+        </ul>
+    </div>
+    <div class="pagingBlockLeftPlace">
+        <!--
+          <div class="pagingNoPlace">
+             <span class="noAll">۲۰</span>
+             <span class="noSep">/</span>
+             <span><input class="gridInputDefault no" type="text" placeholder="شماره صفحه"></span>
+         </div>
+        -->
+        <div class="pagingRowNoPlace">
+            <select class="gridInputDefault rowNo"
+                    ng-init="x.pageSize = 10"
+                    ng-model="x.pageSize"
+                    ng-change="changePageSize(x.pageSize)">
+                <option>10</option>
+                <option>20</option>
+                <option>50</option>
+                <option>100</option>
+                <option>1000</option>
+                <option>10000</option>
+            </select>
+        </div>
+    </div>
+</div>

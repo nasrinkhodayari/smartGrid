@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="http://fonts.googleapis.com/css?family=Dosis:400,500,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/uicon.css" />
+    <link href="css/screen.css" rel="stylesheet"></link>
+
+    <script src="./js/angular.min.js"></script>
+    <script src="./js/jquery.js"></script>
+    <script src="./uiUtil/objectNames.js"></script>
+    <script src="./uiUtil/gridSetting.js"></script>
+    <script src="./smartGrid/gridJs/grid.js"></script>
+
+    <link rel="shortcut icon" href="logo.png" type="image/x-icon">
+    <title>Grid</title>
+</head>
+
+<body ng-app="application" ng-controller="gridCtrl">
+    <div class="gridComp">
+        <!-- gridComp -->
+        <div class="gridCompBlock">
+            <!-- gridCompBlock -->
+            <smart-Gridcomplist smart-grid="sampleGrid"></smart-Gridcomplist>
+            <smart-Gridcompfooter></smart-Gridcompfooter>
+        </div>
+    </div>
+    <!--<div class="gridCompExtend">
+        <div class="gridCompExtendBlock"></div>
+    </div>-->
+</body>
+<script>
+    application.controller('gridCtrl', gridCtrl);
+    function gridCtrl($rootScope, $scope, $sce, gridFactory, SortFields) {
+
+        $scope.load = function () {
+            $scope.sampleData = [
+                { 'id': '1', 'name': 'nasrin', 'family': 'kh', 'age': '20' },
+                { 'id': '2', 'name': 'elham', 'family': 'kh' },
+                { 'id': '3', 'name': 'shohre', 'family': 'kh' },
+                { 'id': '4', 'name': 'haide', 'family': 'kh' },
+                { 'id': '5', 'name': 'fatemeh', 'family': 'kh' },
+                { 'id': '6', 'name': 'elham2', 'family': 'kh' },
+                { 'id': '7', 'name': 'milad', 'family': 'kh' },
+                { 'id': '8', 'name': 'salman', 'family': 'kh' },
+                { 'id': '9', 'name': 'farhad', 'family': 'kh' },
+                { 'id': '10', 'name': 'majid', 'family': 'kh' },
+                { 'id': '11', 'name': 'mohammad', 'family': 'kh' },
+                { 'id': '12', 'name': 'kamran', 'family': 'kh' },
+                { 'id': '13', 'name': 'nasrin', 'family': 'kh' },
+                { 'id': '14', 'name': 'nasrin', 'family': 'kh' },
+                { 'id': '15', 'name': 'nasrin', 'family': 'kh' },
+                { 'id': '16', 'name': 'nasrin', 'family': 'kh' },
+                { 'id': '17', 'name': 'nasrin', 'family': 'kh' },
+                { 'id': '18', 'name': 'nasrin', 'family': 'kh' },
+                { 'id': '19', 'name': 'nasrin', 'family': 'kh' },
+                { 'id': '20', 'name': 'nasrin', 'family': 'kh' },
+                { 'id': '21', 'name': 'nasrin', 'family': 'kh' },
+            ];
+
+            var obj = {};
+            obj.pageSize = 10;
+            obj.pageNumber = 0;
+
+            var gridServOption = {
+                'searchSrv': 'SERVICE_CLIENT_IC_GRID',
+                'icClicentGridData': $scope.sampleData,
+                'searchData': obj,
+                'exampleFlag': false,
+                'pagingFlag': false,
+                'gridName': 'sampleGrid',
+                'SortFields': SortFields,
+                'pageNumber': 0,
+                'pageSize': 10,
+                'settingFlag': false,
+                'filterFlag': true,//optional
+                'selectAllFlag': true,//optional
+                'checkBoxForRowFlag': true,//optional
+                'checkLblForRowFlag': false,//optional
+                'detailBtnFlag': false,//optional
+                'detailBtnActionFlag': true,
+                'detailBtnActionEditFlag': true,
+                'deleteBtnActionFlag': true,
+                'changeSizeFlag': false//optional
+            };
+
+            var gridColOptionsArray = new Array();
+            gridColOptionsArray = [
+                { 'fieldName': 'name', 'colPriority': 1, 'colSize': '20' },
+                { 'fieldName': 'family', 'colPriority': 2, 'colSize': '20', 'isDropDownSearch': ['97', '0', '1'] },
+                { 'fieldName': 'age', 'colPriority': 3, 'fildSearch': 'noFilter', 'fieldIsDropDown': true, 'dropDownType': 'Number' }
+
+            ];
+
+            gridFactory.myFunc($scope, $sce, gridColOptionsArray, gridServOption, function (data) {
+
+            });
+        }
+
+        $scope.load();
+        $scope.selectGridRow = function (item, flag) {
+
+        }
+    }
+
+</script>
+
+</html>
