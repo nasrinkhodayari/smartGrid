@@ -94,7 +94,7 @@
             </div>
         </div>
         <div ng-if="rowField.fieldName != undefined && rowField.fieldType != 'id'  && !rowField.fieldIsDropDown" class="coll{{rowField.filedSize}}" ng-repeat="rowField in rowData">
-            <div class="cell" title="{{rowField.fieldName}}">{{rowField.fieldName}}</div>
+            <div class="cell" title="{{rowField.fieldName}}">{{rowField.fieldName.slice(0,100)}}</div>
         </div>
 
         <div ng-if="rowField.fieldName != undefined && rowField.fieldType != 'id' && rowField.fieldIsDropDown" class="coll{{rowField.filedSize}}" ng-repeat="rowField in rowData">
