@@ -358,6 +358,11 @@ application.factory('gridFactory', ['gridHttpRequest', function (gridHttpRequest
                         else
                             ob.fieldName = '-';
 
+                        ob.celFieldName = ob.fieldName;
+                        if (ob.fieldName.length > 100) {
+                            ob.celFieldName = ob.fieldName.slice(0, 100);
+                        }
+                        
                         if (scope.gridKey[i].fieldIsDropDown != undefined)
                             ob.fieldIsDropDown = scope.gridKey[i].fieldIsDropDown;
                         else
@@ -374,7 +379,7 @@ application.factory('gridFactory', ['gridHttpRequest', function (gridHttpRequest
                                         ob.fieldIsDropDownArr.values.push(obj);
                                     }
                                     if (ob.fieldIsDropDownArr)
-                                       ob.fieldIsDropDownArr.value = ob.fieldName;
+                                        ob.fieldIsDropDownArr.value = ob.fieldName;
                                 }
                             }
                         }
