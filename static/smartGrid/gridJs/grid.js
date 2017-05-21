@@ -46,7 +46,26 @@ application.directive('focusOn', function ($timeout) {
         });
     };
 });
+application.directive('integerOnly', function () {
+    return {
+        require: 'ngModel',
+        link: function (scope, element, attr, ngModelCtrl) {
+            function fromUser(text) {
+                if (text) {
+                    var transformedInput = text.replace(/[^0-9]/g, '');
 
+                    if (transformedInput !== text) {
+                        ngModelCtrl.$setViewValue(transformedInput);
+                        ngModelCtrl.$render();
+                    }
+                    return transformedInput;
+                }
+                return undefined;
+            }
+            ngModelCtrl.$parsers.push(fromUser);
+        }
+    };
+});
 application.directive('smartGridcomplist', function () {
     return {
         restrict: 'E',
@@ -362,7 +381,7 @@ application.factory('gridFactory', ['gridHttpRequest', function (gridHttpRequest
                         if (ob.fieldName.length > 100) {
                             ob.celFieldName = ob.fieldName.slice(0, 100);
                         }
-                        
+
                         if (scope.gridKey[i].fieldIsDropDown != undefined)
                             ob.fieldIsDropDown = scope.gridKey[i].fieldIsDropDown;
                         else
@@ -386,6 +405,8 @@ application.factory('gridFactory', ['gridHttpRequest', function (gridHttpRequest
 
                         ob.filedSize = scope.gridKey[i].colSize;
                         ob.fieldType = scope.gridKey[i].name;
+                        ob.searchInpType = scope.gridKey[i].searchInpType;
+                        
                         // if (scope.filterExample) {
                         if (scope.gridKey[i].isDropDownSearch)
                             scope.gridKey[i].isDropDownSearch.value = scope.searchData[scope.gridKey[i].fildSearch];
@@ -960,6 +981,11 @@ application.factory('gridFactory', ['gridHttpRequest', function (gridHttpRequest
                         else
                             obj.dropDownType = false;
                         //dropDownType
+
+                        if (gridColOptions[iGridColOption].searchInpType != undefined)
+                            obj.searchInpType = gridColOptions[iGridColOption].searchInpType;
+                        else
+                            obj.searchInpType = '';
                     }
                 }
             finalArray.push(obj);

@@ -13,12 +13,15 @@
         <div class="coll{{colName.colSize}} searchAria" ng-repeat="colName in gridKey" ng-if="colName.name != '_id' && colName.name != 'id' ">
             <div class="cell">
                 <input class="gridInputDefaultSearch {{colName.fieldType}}" id="{{colName.name}}" type="search" ng-if="colName.fildSearch != 'noFilter' && !colName.isDropDownSearch"
-                       value="{{colName.searchVal}}" ng-enter="enterSearch(colName.name , colName.fildSearch)" data-search="{{colName.fildSearch}}">
+                    value="{{colName.searchVal}}" ng-enter="enterSearch(colName.name , colName.fildSearch)" data-search="{{colName.fildSearch}}">
 
-                <select ng-model="colName.isDropDownSearch.value" ng-if="colName.isDropDownSearch" class="gridInputDefaultSearch"
-                        data-search="{{colName.fildSearch}}"
-                        ng-options="v for v in  colName.isDropDownSearch.values"
-                        ng-change="enterSearch('status' , colName)"></select>
+                <input integer-only class="gridInputDefaultSearch {{colName.fieldType}}" id="{{colName.name}}" type="search" ng-if="colName.fildSearch != 'noFilter' && !colName.isDropDownSearch && colName.searchInpType==='number'"
+                    value="{{colName.searchVal}}" ng-enter="enterSearch(colName.name , colName.fildSearch)" ng-model="colName.searchVal"
+                    data-search="{{colName.fildSearch}}">
+
+
+                <select ng-model="colName.isDropDownSearch.value" ng-if="colName.isDropDownSearch" class="gridInputDefaultSearch" data-search="{{colName.fildSearch}}"
+                    ng-options="v for v in  colName.isDropDownSearch.values" ng-change="enterSearch('status' , colName)"></select>
                 <!--<input class="gridInputDefaultSearch {{colName.fieldType}}" id="{{colName.name}}" type="search" ng-if="colName.isDropDownSearch"
                 value="{{colName.searchVal}}" disabled="disabled" data-search="{{colName.fildSearch}}">-->
             </div>
@@ -52,8 +55,7 @@
         <div class="coll{{colName.colSize}}" ng-repeat="colName in gridKey" ng-init="gridKey" ng-if="colName.name != 'id'">
             <div class="cell collNo" style="border-radius: 4px 4px 0 0;">
                 <span>{{colName.displayName}}</span>
-                <a class="sortIcon" ng-if="colName.name != '_id' && colName.hasSort"
-                   ng-click="_doSort(colName)"><span class="icon icon-{{colName.sortIcon}}"></span></a>
+                <a class="sortIcon" ng-if="colName.name != '_id' && colName.hasSort" ng-click="_doSort(colName)"><span class="icon icon-{{colName.sortIcon}}"></span></a>
             </div>
         </div>
         <!--
@@ -76,7 +78,8 @@
             </div>
         </div>-->
     </li>
-    <li class="roww {{rowData[0].obj.colorSelected}}" ng-repeat="rowData in gridData" ng-click="selectRoww(rowData)" data-id="{{rowData[0].obj.id}}" ng-dblclick="_doDetail(rowData)">
+    <li class="roww {{rowData[0].obj.colorSelected}}" ng-repeat="rowData in gridData" ng-click="selectRoww(rowData)" data-id="{{rowData[0].obj.id}}"
+        ng-dblclick="_doDetail(rowData)">
         <div class="coll{{defaultTinyColSize}} checkandtag" ng-if="selectAllFlag && checkBoxForRowFlag">
             <div class="cell cellBtnAction">
                 <div class="checkbox-inline">
@@ -93,15 +96,15 @@
                 <input id="" tabindex="" class="gridInputTag" type="text" placeholder="" focus-on="isOpen">
             </div>
         </div>
-        <div ng-if="rowField.fieldName != undefined && rowField.fieldType != 'id'  && !rowField.fieldIsDropDown" class="coll{{rowField.filedSize}}" ng-repeat="rowField in rowData">
+        <div ng-if="rowField.fieldName != undefined && rowField.fieldType != 'id'  && !rowField.fieldIsDropDown" class="coll{{rowField.filedSize}}"
+            ng-repeat="rowField in rowData">
             <div class="cell" title="{{rowField.fieldName}}">{{rowField.celFieldName}}</div>
         </div>
 
-        <div ng-if="rowField.fieldName != undefined && rowField.fieldType != 'id' && rowField.fieldIsDropDown" class="coll{{rowField.filedSize}}" ng-repeat="rowField in rowData">
+        <div ng-if="rowField.fieldName != undefined && rowField.fieldType != 'id' && rowField.fieldIsDropDown" class="coll{{rowField.filedSize}}"
+            ng-repeat="rowField in rowData">
             <div class="cell">
-                <select class="formInputNumberSpinIn"
-                        ng-model="rowField.fieldIsDropDownArr.value"
-                        ng-change="selectDrpOpt(rowField.fieldIsDropDownArr.value,rowData)">
+                <select class="formInputNumberSpinIn" ng-model="rowField.fieldIsDropDownArr.value" ng-change="selectDrpOpt(rowField.fieldIsDropDownArr.value,rowData)">
                     <option value="">انتخاب کنید</option>
                     <option ng-repeat="v in  rowField.fieldIsDropDownArr.values">{{v}}</option>
                 </select>
