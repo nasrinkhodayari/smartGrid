@@ -223,6 +223,7 @@ application.factory('gridFactory', ['gridHttpRequest', function (gridHttpRequest
         scope.defaultTinyColSize = gridServOption.bigGrid ? gridDefaultOptions.defaultTinyColSizeBigGrid : gridDefaultOptions.defaultTinyColSize;
         scope.defaultColSize = gridServOption.bigGrid ? gridDefaultOptions.defaultColSizeBigGrid : gridDefaultOptions.defaultColSize;
         scope.desiredButsItems = [];
+        scope.publicDisplayNames = gridServOption.publicDisplayNames;
 
         scope.bigGrid = gridServOption.bigGrid;
 
@@ -406,7 +407,7 @@ application.factory('gridFactory', ['gridHttpRequest', function (gridHttpRequest
                         ob.filedSize = scope.gridKey[i].colSize;
                         ob.fieldType = scope.gridKey[i].name;
                         ob.searchInpType = scope.gridKey[i].searchInpType;
-                        
+
                         // if (scope.filterExample) {
                         if (scope.gridKey[i].isDropDownSearch)
                             scope.gridKey[i].isDropDownSearch.value = scope.searchData[scope.gridKey[i].fildSearch];
@@ -920,8 +921,10 @@ application.factory('gridFactory', ['gridHttpRequest', function (gridHttpRequest
             obj.id = i;
             obj.name = createFieldValue(gridKey[i]);
             obj.sortField = createSortField(gridKey[i], gridName);
-
-            obj.displayName = convertDisplayNameToFarsi(gridKey[i], gridName);
+            if (scope.publicDisplayNames)
+                obj.displayName = convertDisplayNameToFarsi(gridKey[i], scope.publicDisplayNames, gridName);
+            else
+                obj.displayName = convertDisplayNameToFarsi(gridKey[i], gridName);
             //  obj.colSize = gridDefaultOptions.defaultColSize;
             obj.colPriority = gridDefaultOptions.defaultcolPriority;
 

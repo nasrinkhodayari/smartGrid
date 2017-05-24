@@ -1,14 +1,23 @@
 ﻿
-function convertDisplayNameToFarsi(fieldName) {
-    
-    if (Object.keys(publicDisplayNames).indexOf(fieldName) != -1) {
-        return publicDisplayNames[fieldName];
-    }
-    else {
-        return fieldName;
+function convertDisplayNameToFarsi(fieldName, specificPublicDisplayNames) {
+
+    if (specificPublicDisplayNames) {
+        if (Object.keys(specificPublicDisplayNames).indexOf(fieldName) != -1) {
+            return specificPublicDisplayNames[fieldName];
+        }
+        else {
+            return fieldName;
+        }
+    } else {
+        if (Object.keys(publicDisplayNames).indexOf(fieldName) != -1) {
+            return publicDisplayNames[fieldName];
+        }
+        else {
+            return fieldName;
+        }
+
     }
 }
-
 function createSortField(objName, gridName) {
     
     var sortField = objName;
