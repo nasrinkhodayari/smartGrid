@@ -2,10 +2,15 @@
 function convertDisplayNameToFarsi(fieldName, specificPublicDisplayNames) {
 
     if (specificPublicDisplayNames) {
+        
         if (Object.keys(specificPublicDisplayNames).indexOf(fieldName) != -1) {
+           
             return specificPublicDisplayNames[fieldName];
         }
         else {
+            if (fieldName === '_id') {
+                return publicDisplayNames[fieldName];
+            }
             return fieldName;
         }
     } else {
