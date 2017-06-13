@@ -61,6 +61,10 @@
         <!--
         <div class="coll5"><div class="cell">&nbsp;</div></div>
         -->
+        <div class="coll{{tinyActionColumnsSize}}" ng-if="extraCol">
+            <div class="cell"><span>ت شروع</span></div>
+            <!--<div class="cell" title="{{rowData[0].obj.extraField}}">{{rowData[0].obj.extraField}}</div>-->
+        </div>
         <div class="coll{{tinyActionColumnsSize}}" ng-if="tinyColumnsFlag">
             <div class="cell" style="border-radius: 4px 0 0;">
                 <span></span>
@@ -118,6 +122,10 @@
             </div>
         </div>
         -->
+        <div class="coll{{tinyActionColumnsSize}}" ng-if="extraCol">
+            <div ng-if="rowData[0].obj.extraField" class="cell" title="{{rowData[0].obj.extraField}}">{{rowData[0].obj.extraField}}</div>
+            <div ng-if="!rowData[0].obj.extraField" class="cell" title="">-</div>
+        </div>
         <div class="coll{{tinyActionColumnsSize}}" ng-if="tinyColumnsFlag">
             <div class="cell cellBtnAction">
                 <span class="" ng-show="deleteBtnActionFlag">

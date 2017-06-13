@@ -226,7 +226,15 @@ application.factory('gridFactory', ['gridHttpRequest', function (gridHttpRequest
         scope.publicDisplayNames = gridServOption.publicDisplayNames;
 
         scope.bigGrid = gridServOption.bigGrid;
+        if (gridServOption._showPageSize == undefined)
+            scope._showPageSize = true;
+        else
+            scope._showPageSize = gridServOption._showPageSize;
 
+        if (gridServOption.extraCol !== undefined)
+            scope.extraCol = gridServOption.extraCol;
+        else
+            scope.extraCol = false;//sample in adonis
         scope.tinyColumnsSize = 0;
         scope.tinyActionColumnsSize = 0;
         if (scope.detailBtnActionFlag) {
@@ -619,7 +627,8 @@ application.factory('gridFactory', ['gridHttpRequest', function (gridHttpRequest
                 else
                     scope.selectGridRow(item[0].obj, false);
             });
-
+            if (scope.checkAllImpl)
+                scope.checkAllImpl(scope.selectedAll);
         };
         scope._doEdit = function (rowData) {
 
@@ -867,7 +876,9 @@ application.factory('gridFactory', ['gridHttpRequest', function (gridHttpRequest
 
                 }
             });
-
+            if (scope.extraCol) {
+                scope.smalColumns.columnsSize += 5;
+            }
             scope.allColumnsSize = scope.largColumns.columnsSize + scope.smalColumns.columnsSize;
             if (scope.allColumnsSiz % 5 != 0 && scope.gridName === 'gridDeviceList')
                 scope.allColumnsSize = scope.allColumnsSize + (scope.allColumnsSiz % 5);
