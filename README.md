@@ -19,7 +19,7 @@ Feature List:
 
 7-  Custom action column
 
-8-  Difrent color for any rows
+8-  Different color for any rows
 
 9-  Check all rows
 
