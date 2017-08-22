@@ -1,6 +1,18 @@
 ﻿
 var application = angular.module('application', []);
+application.directive('ngEnter', function () {
+    return function (scope, element, attrs) {
+        element.bind("keydown keypress", function (event) {
+            if (event.which === 13) {
+                scope.$apply(function () {
+                    scope.$eval(attrs.ngEnter);
+                });
 
+                event.preventDefault();
+            }
+        });
+    };
+});
 function getDesiTitle(desiIcon) {
     switch (desiIcon) {
         case 'ccw': {
@@ -190,9 +202,8 @@ application.factory('gridFactory', ['gridHttpRequest', function (gridHttpRequest
     var srv = {};
 
     srv.myFunc = function (scope, sce, gridColOptionsArray, gridServOption, callback) {
-
         //setting
-
+        delete localStorage.currentEnterd;
         scope.openCloseSettingFlag = false;
         scope.filterFlag = gridServOption.filterFlag;
         scope.settingFlag = gridServOption.settingFlag;
@@ -209,8 +220,12 @@ application.factory('gridFactory', ['gridHttpRequest', function (gridHttpRequest
         scope.defaultActionColSize = gridServOption.bigGrid ? gridDefaultOptions.defaultActionColSizeBigGrid : gridDefaultOptions.defaultActionColSize;
         scope.defaultSelectAllBtnSize = gridDefaultOptions.defaultSelectAllBtnSize;
         scope.SortFields = gridServOption.SortFields;
-        scope.searchData = gridServOption.searchData;
-        scope.pageSize = gridServOption.pageSize;
+        scope.searchData = gridServOption.searchData,
+
+            //scope.pageSize = gridServOption.pageSize;
+            scope.pageSize = (scope.x !== undefined) ? scope.x.pageSize : gridServOption.pageSize;
+
+        scope.goPage = 1;
         scope.pageNumber = gridServOption.pageNumber;
         scope.searchSrv = gridServOption.searchSrv;
         scope.icClicentGridData = gridServOption.icClicentGridData;
@@ -219,13 +234,13 @@ application.factory('gridFactory', ['gridHttpRequest', function (gridHttpRequest
         scope.filterExample = gridServOption.filterExample;
         scope.gridType = gridServOption.gridType;
         scope.selectClass;
-
+        scope.totalCount;
         scope.defaultTinyColSize = gridServOption.bigGrid ? gridDefaultOptions.defaultTinyColSizeBigGrid : gridDefaultOptions.defaultTinyColSize;
         scope.defaultColSize = gridServOption.bigGrid ? gridDefaultOptions.defaultColSizeBigGrid : gridDefaultOptions.defaultColSize;
         scope.desiredButsItems = [];
         scope.publicDisplayNames = gridServOption.publicDisplayNames;
-
         scope.bigGrid = gridServOption.bigGrid;
+
         if (gridServOption._showPageSize == undefined)
             scope._showPageSize = true;
         else
@@ -542,6 +557,7 @@ application.factory('gridFactory', ['gridHttpRequest', function (gridHttpRequest
                         else
                             Data = viewData.resultSet;
 
+
                         if (viewData.result)
                             if (viewData.result.callback)
                                 scope.totalCount = parseInt(viewData.result.callback);
@@ -567,10 +583,14 @@ application.factory('gridFactory', ['gridHttpRequest', function (gridHttpRequest
                                 //if (pageNumber == 0)
                                 pageNumber += 1;
                                 scope.pagination.currentPage = pageNumber;
+                                console.log(scope.pagination.currentPage);
+                                scope.goPage = scope.pagination.currentPage;
+
+                                $("._goTo")[0].value = scope.goPage;
                                 scope.pagination.last = scope.number_of_pages;
 
                                 angular.forEach(document.querySelectorAll('.page'), function (item) {
-                                    angular.element(item).removeClass('select')
+                                    angular.element(item).removeClass('select');
                                 });
 
                                 $("ul.paging li." + scope.gridName).each(function () {
@@ -578,12 +598,28 @@ application.factory('gridFactory', ['gridHttpRequest', function (gridHttpRequest
 
                                 });
                                 $(".current" + pageNumber + scope.gridName).addClass('select');
+
+                                $("div.searchAria input.gridInputDefaultSearch").each(function (element) {
+
+                                    if ($(this)[0].id === localStorage.getItem('currentEnterd')) {
+                                        if ($(this).val() !== '') {
+                                            $(this).focus();
+                                        }
+                                    }
+                                });
                             }, 200);
 
                         }
                         else {
                             scope.gridData = [];
                         }
+
+
+
+                        if (callback)
+                            callback(viewData.resultSet);
+                        if (scope.getDataCallback)
+                            scope.getDataCallback(viewData);//this methode for get data to my controller
                     });
                     if (callback)
                         callback(viewData.resultSet);
@@ -594,7 +630,13 @@ application.factory('gridFactory', ['gridHttpRequest', function (gridHttpRequest
             }
 
         }
-
+        scope.goToPage = function () {
+            if (parseInt(scope.goPage) > scope.pagination.last)
+                scope.goPage = scope.pagination.last;
+            if (parseInt(scope.goPage) < 1)
+                scope.goPage = 1;
+            scope.setCurrent(parseInt(scope.goPage) - 1, 'pagination');
+        }
         scope.setCurrent(scope.pageNumber, 'pagination', callback);
         scope.changePageSize = function (changePageSize) {
 

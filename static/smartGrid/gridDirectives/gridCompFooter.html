@@ -5,6 +5,9 @@
     </div>
     <div class="pagingPagesPlace">
         <ul class="paging">
+            <li class="arrowRight">
+                <a ng-click="setCurrent(0, 'pagination')" title="اولین صفحه"><span class="icon" data-icon="&#xe127;"></span></a>
+            </li>
             <li class="arrowRight" ng-if="pagination.currentPage > 0">
                 <a ng-click="setCurrent(pagination.currentPage-2, 'pagination')"><span class="icon" data-icon="&#xe128;"></span></a>
             </li>
@@ -17,22 +20,30 @@
             <li id="current{{pageNumber}}" class="current{{pageNumber}}{{gridName}} {{gridName}}" ng-repeat="pageNumber in pages track by $index" ng-class="{ myActive :pagination.currentPage == pageNumber, disabled : pageNumber == '...' }">
                 <a href="" ng-click="setCurrent(pageNumber , '')">{{ pageNumber}}</a>
             </li>
-            <li class="arrowLeft" ng-if="pagination.currentPage < pagination.last">
+            <!--<li class="arrowLeft" ng-if="pagination.currentPage < pagination.last">
                 <a ng-click="setCurrent(pagination.currentPage, 'pagination')"><span class="icon" data-icon="&#xe129;"></span></a>
+            </li>-->
+            <li class="arrowLeft">
+                <a ng-click="setCurrent(pagination.currentPage, 'pagination')"><span class="icon" data-icon="&#xe129;"></span></a>
+            </li>
+            <li class="arrowLeft">
+                <a ng-click="setCurrent(pagination.last-1, 'pagination')" title="آخرین صفحه"><span class="icon" data-icon="&#xe126;"></span></a>
             </li>
         </ul>
     </div>
     <div class="pagingBlockLeftPlace">
-        <!--
-          <div class="pagingNoPlace">
-             <span class="noAll">۲۰</span>
-             <span class="noSep">/</span>
-             <span><input class="gridInputDefault no" type="text" placeholder="شماره صفحه"></span>
-         </div>
-        -->
-        <div class="pagingRowNoPlace">
+
+        <div class="pagingNoPlace">
+            <span class="noAll">{{pagination.last}}</span>
+            <span class="noSep">/</span>
+            <span>
+                <input class="gridInputDefault no _goTo" type="text" placeholder="ش صفحه" ng-enter="goToPage()" ng-model="goPage">
+            </span>
+        </div>
+
+        <div ng-show="_showPageSize" class="pagingRowNoPlace">
             <select class="gridInputDefault rowNo"
-                    ng-init="x.pageSize = 10"
+                    ng-init="x.pageSize = '10'"
                     ng-model="x.pageSize"
                     ng-change="changePageSize(x.pageSize)">
                 <option>10</option>
@@ -40,7 +51,7 @@
                 <option>50</option>
                 <option>100</option>
                 <option>1000</option>
-                <option>10000</option>
+                <!--<option>10000</option>-->
             </select>
         </div>
     </div>
